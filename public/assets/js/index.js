@@ -143,4 +143,3 @@ $noteText.on("keyup", handleRenderSaveBtn);
 getAndRenderNotes();
 
 
-module.exports = index;
