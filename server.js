@@ -1,11 +1,6 @@
 var http = require("http");
 var express = require('express');
 var fs = require("fs");
-// var noteread = fs.readFile(__dirname +'/db/db.json');
-// var data = JSON.parse(noteread);
-// console.log(data[0]);
-// var notewrite = fs.writeFile(__dirname +'/db/db.json');
-// var write = JSON.stringify(notewrite);
 
 var http = require("http");
 
