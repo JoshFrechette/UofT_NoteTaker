@@ -5,12 +5,12 @@
     "node": "12.11.1"
   },
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Josh Fréchette",
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",

@@ -1,10 +1,10 @@
+//Dependencies 
 var http = require("http");
 var express = require("express");
 var fs = require("fs");
-var path = require("path")
-
+var path = require("path");
 var http = require("http");
-
+//Set up
 var app = express();
 var PORT = process.env.PORT || 8080;
 
@@ -14,23 +14,27 @@ app.use(express.static(__dirname + '/public'));
 
 var server = http.createServer(handleRequest);
 
-app.get("*", function(req, res) {
+//GET functions *****
+app.get("/notes", function (req, res) {
+  res.sendFile(path.join(__dirname, "public/index.html"));
+});
+
+// Read a note
+app.get("/api/notes", function (req, res) {
+  let readnote = JSON.stringify(data);
+  fs.readFile(__dirname + "./db/db.json", function (err, data) {
+    if (err) throw err;
+    return res.json(JSON.parse(data))
+  })
+});
+
+app.get("*", function (req, res) {
   res.sendFile(path.join(__dirname, "public/index.html"));
   res.writeHead(200, { "Content-Type": "text/html" });
   res.end(data);
 });
 
-app.get("/:notes", function(req, res) {
-
-  fs.readFile(__dirname + "/public/notes.html", function (err, data) {
-    if (err) throw err;
-    res.writeHead(200, { "Content-Type": "text/html" });
-    res.end(data);
-    return data.json(JSON.parse(data))
-  })
-});
-
-
+//Initialize homepage
 function handleRequest(req, res) {
 
   fs.readFile(__dirname + "/public/index.html", function (err, data) {
@@ -54,11 +58,9 @@ function handleRequest(req, res) {
   }
 }
 
-
-
 function displayRoot(res) {
   fs.readFile(__dirname + "/public/index.html", function (err, data) {
-    if (err) throw err; 
+    if (err) throw err;
     res.writeHead(200, { "Content-Type": "text/html" });
     res.end(data);
   })
@@ -82,22 +84,23 @@ function display404(url, res) {
 }
 
 //API Routes*************
-// Read a note
-app.get("/api/notes", function(req, res) {
-  let readnote = JSON.stringify(data);
-});
-
 //Create new note
-app.post("/api/notes", function(req, res) {
-  let readnote = JSON.stingify(data);
-  fs.writeFile(__dirname +'/db/db.json', readnote, err => {
+app.post("/api/notes", function (req, res) {
+  let newnote = req.body;
+  console.log(newnote)
+  fs.readFile(__dirname + '/db/db.json', 'utf8', readnote, err => {
+     let readnote = JSON.parse(data);
+  })
+  .then()
+  fs.writeFile(__dirname + '/db/db.json', readnote, err => {
 
   })
 });
+
 // Delete a note
-app.delete("/api/notes", function(req, res) {
-  let readnote = JSON.stingify(data);
-  fs.deleteFile(__dirname +'/db/db.json', readnote, err => {
+app.delete("/api/notes", function (req, res) {
+  // let readnote = JSON.stringify(data);
+  fs.deleteFile(__dirname + '/db/db.json', readnote, err => {
 
   })
 });
