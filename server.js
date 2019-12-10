@@ -1,10 +1,11 @@
 var http = require("http");
 var express = require('express');
 var fs = require("fs");
-var notedata = fs.readFile(__dirname +'/db/db.json');
-var data = JSON.parse(notedata);
-console.log(notes[0]);
-// var index = require("./public/assets/js/index.js"); //Uneeded? jquery code interfering with the rest...
+// var noteread = fs.readFile(__dirname +'/db/db.json');
+// var data = JSON.parse(noteread);
+// console.log(data[0]);
+// var notewrite = fs.writeFile(__dirname +'/db/db.json');
+// var write = JSON.stringify(notewrite);
 
 var http = require("http");
 
@@ -13,8 +14,26 @@ var PORT = 8080;
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(express.static(__dirname + '/public'));
 
 var server = http.createServer(handleRequest);
+
+app.get("*", function(req, res) {
+  res.sendFile(path.join(__dirname, "public/index.html"));
+  res.writeHead(200, { "Content-Type": "text/html" });
+  res.end(data);
+});
+
+app.get("/:notes", function(req, res) {
+
+  fs.readFile(__dirname + "/public/notes.html", function (err, data) {
+    if (err) throw err;
+    res.writeHead(200, { "Content-Type": "text/html" });
+    res.end(data);
+    return data.json(JSON.parse(data))
+  })
+});
+
 
 function handleRequest(req, res) {
 
@@ -39,9 +58,11 @@ function handleRequest(req, res) {
   }
 }
 
+
+
 function displayRoot(res) {
   fs.readFile(__dirname + "/public/index.html", function (err, data) {
-    if (err) throw err;
+    if (err) throw err; 
     res.writeHead(200, { "Content-Type": "text/html" });
     res.end(data);
   })
@@ -64,30 +85,19 @@ function display404(url, res) {
   res.end(myHTML);
 }
 
-app.get("*", function(req, res) {
-  displayRoot()
-  res.send("homepage");
-});
-
-app.get("/:notes", function(req, res) {
-  displayNotes()
-  // var chosen = req.params.character;
-  res.end("note-taker");
-});
-
 //API Routes*************
 // Read a note
 app.get("/api/notes", function(req, res) {
-  let readnote = JSON.stingify(data);
+  let readnote = JSON.stringify(data);
+});
 
-})
 //Create new note
 app.post("/api/notes", function(req, res) {
   let readnote = JSON.stingify(data);
   fs.writeFile(__dirname +'/db/db.json', readnote, err => {
 
   })
-})
+});
 // Delete a note
 app.delete("/api/notes", function(req, res) {
   let readnote = JSON.stingify(data);
@@ -98,4 +108,5 @@ app.delete("/api/notes", function(req, res) {
 
 server.listen(PORT, function () {
   console.log("Server listening Note-Taker on: http://localhost:" + PORT);
-})
+});
+
