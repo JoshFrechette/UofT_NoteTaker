@@ -36,26 +36,21 @@ app.post("/api/notes", function (req, res) {//Get the text from the html
     text = newnote.text;
   fs.readFile(__dirname + '/db/db.json', 'utf8', (err, data) => {
     if (err) throw err;
-    noteObj = JSON.parse(data);
-    id = getId();
-    noteObj.push({title, text ,id: id});
-    fs.writeFile(__dirname + '/db/db.json', JSON.stringify(noteObj),(err) => {
-      if (err) throw err;
-    })
+      noteObj = JSON.parse(data);
+      id = getId();
+      noteObj.push({title, text ,id: id});
+      fs.writeFile(__dirname + '/db/db.json', JSON.stringify(noteObj),(err) => {
+        if (err) throw err;
+      })
   })
 })
     
   // Delete a note
 app.delete("/api/notes/:id", function (req, res) {
   let id = req.params.id;
-  console.log(req.params)
-  console.log(id)
   fs.readFile(__dirname + '/db/db.json', 'utf8', (err, data) => {
-    console.log(data)
     let noteObj = JSON.parse(data);
-    noteObj.splice(id-1);
-    //Might break here...
-  
+    noteObj.splice(id-1);  
     NewNoteObj = JSON.stringify(noteObj);
     fs.writeFile('db/db.json',NewNoteObj,(err)=>{
         if (err) {
@@ -65,6 +60,7 @@ app.delete("/api/notes/:id", function (req, res) {
   })
 });
 
+//Create a unique id# for every note entry
 function getId() {
   noteEntries = JSON.parse(fs.readFileSync(__dirname + '/db/db.json', 'utf8'));
   if (noteEntries.length === null) {
