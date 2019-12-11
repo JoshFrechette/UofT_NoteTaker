@@ -42,7 +42,6 @@ app.post("/api/notes", function (req, res) {//Get the text from the html
     fs.writeFile(__dirname + '/db/db.json', JSON.stringify(noteObj),(err) => {
       if (err) throw err;
     })
-    // return JSON.parse(res);
   })
 })
     
@@ -53,16 +52,17 @@ app.delete("/api/notes/:id", function (req, res) {
   console.log(id)
   fs.readFile(__dirname + '/db/db.json', 'utf8', (err, data) => {
     console.log(data)
-    noteObj = JSON.parse(data);
-    noteObj.splice(id);
+    let noteObj = JSON.parse(data);
+    noteObj.splice(id-1);
     //Might break here...
-  })
+  
     NewNoteObj = JSON.stringify(noteObj);
     fs.writeFile('db/db.json',NewNoteObj,(err)=>{
         if (err) {
             throw err
         };
     })
+  })
 });
 
 function getId() {
@@ -76,5 +76,4 @@ function getId() {
 
 app.listen(PORT, function (){
     console.log("Server listening to Note-Taker on http://localhost:" + PORT);
-
 })
