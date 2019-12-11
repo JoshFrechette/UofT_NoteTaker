@@ -32,12 +32,10 @@ app.get("/api/notes", function(req, res){
 //Save a note
 app.post("/api/notes", function (req, res) {//Get the text from the html
   let newnote = req.body;
-  title = newnote.title;
-  text = newnote.text;
-  console.log(newnote)
+    title = newnote.title;
+    text = newnote.text;
   fs.readFile(__dirname + '/db/db.json', 'utf8', (err, data) => {
     if (err) throw err;
-    console.log(data)
     noteObj = JSON.parse(data);
     id = getId();
     noteObj.push({title, text ,id: id});
@@ -49,16 +47,26 @@ app.post("/api/notes", function (req, res) {//Get the text from the html
 })
     
   // Delete a note
-      app.delete("/api/notes/:id", function (res, err) {
-      if (err) throw err;
-      fs.deleteFile(__dirname + '/db/db.json', readnote, err => {
-
-      })
-  });
+app.delete("/api/notes/:id", function (req, res) {
+  let id = req.params.id;
+  console.log(req.params)
+  console.log(id)
+  fs.readFile(__dirname + '/db/db.json', 'utf8', (err, data) => {
+    console.log(data)
+    noteObj = JSON.parse(data);
+    noteObj.splice(id);
+    //Might break here...
+  })
+    NewNoteObj = JSON.stringify(noteObj);
+    fs.writeFile('db/db.json',NewNoteObj,(err)=>{
+        if (err) {
+            throw err
+        };
+    })
+});
 
 function getId() {
   noteEntries = JSON.parse(fs.readFileSync(__dirname + '/db/db.json', 'utf8'));
-  console.log(noteEntries);
   if (noteEntries.length === null) {
     return 1
   } else {
