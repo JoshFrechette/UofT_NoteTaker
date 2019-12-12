@@ -12,6 +12,7 @@ app.use(express.json());
 app.use(express.static(__dirname + '/public'));
 
 //Basic Get Functions
+//HTML routes
 app.get("/notes", function (req, res){
     res.sendFile(path.join(__dirname, "public/notes.html"));
 });
@@ -20,13 +21,12 @@ app.get("/", function (req, res){
   res.sendFile(path.join(__dirname, "public/index.html"));
 });
 
-
 //Display stored note(s)
-app.get("/api/notes", function(req, res){
-    fs.readFile(__dirname + "/db/db.json", function (err, data) {
-        if (err) throw err;
-        return res.json(JSON.parse(data))
-    })
+app.get("/api/notes", async function(req, res){
+  await fs.readFile(__dirname + "/db/db.json", function (err, data) {
+      if (err) throw err;
+      return res.json(JSON.parse(data))
+  })
 });
 
 //Save a note
@@ -47,16 +47,26 @@ app.post("/api/notes", function (req, res) {//Get the text from the html
     
   // Delete a note
 app.delete("/api/notes/:id", function (req, res) {
-  let id = req.params.id;
+  let id = req.params.id -1;
   fs.readFile(__dirname + '/db/db.json', 'utf8', (err, data) => {
     let noteObj = JSON.parse(data);
-    noteObj.splice(id-1);  
-    NewNoteObj = JSON.stringify(noteObj);
-    fs.writeFile('db/db.json',NewNoteObj,(err)=>{
+    console.log(id)
+    noteObj.splice(id, 1); //Is taking out every element after the selection 
+    newNoteObj = JSON.stringify(noteObj);
+    console.log(newNoteObj)
+    fs.writeFile('db/db.json',newNoteObj,(err)=>{
         if (err) {
             throw err
-        };
+        }
     })
+  })
+});
+
+//Display stored note(s)
+app.get("/api/notes", function(req, res){
+  fs.readFile(__dirname + "/db/db.json", function (err, data) {
+      if (err) throw err;
+      return res.json(JSON.parse(data))
   })
 });
 

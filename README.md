@@ -23,7 +23,7 @@ https://github.com/TwistedPixels/Note-Taker.git
 
 # Usage
 
-![Browser Deployment of Note Taker App](documentation/Note_Taker_Pic.png)
+![Browser Deployment of Note Taker App](Documentation/Note_Taker_Pic.png)
 
 From the Landing page, press "Get Started" to go to the Notes page.
 
