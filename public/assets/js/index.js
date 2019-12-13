@@ -7,14 +7,6 @@ var $noteList = $(".list-container .list-group");
 // activeNote is used to keep track of the note in the textarea
 var activeNote = {};
 
-// var update = $('.list-group').DataTable({
-//   ajax: 'db.json'
-// });
-
-// setInterval(function(){
-//   update.ajax.reload();
-// }, 100);
-
 // A function for getting all notes from the db
 var getNotes = function() {
   return $.ajax({

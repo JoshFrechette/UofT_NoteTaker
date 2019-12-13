@@ -35,8 +35,6 @@ From the Notes page, if notes already are contained in the JSON database, the us
 
 If there are no previous notes, user can only Save a current note.
 
-*** There is lag with the server, so the user may have to refresh the page to properly see that a note is saved or deleted.**
-
 # License
 
 MIT License
