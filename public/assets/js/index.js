@@ -47,7 +47,6 @@ var renderActiveNote = function() {
     $noteTitle.val("");
     $noteText.val("");
   }
-  location.reload(true);
 };
 
 // Get the note data from the inputs, save it to the db and update the view
@@ -60,7 +59,6 @@ var handleNoteSave = function() {
   saveNote(newNote).then(function(data) {
     getAndRenderNotes();
     renderActiveNote();
-    location.reload();
   });
 };
 
